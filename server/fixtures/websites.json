@@ -1,0 +1,297 @@
+[
+ {
+  "id": "launch_page",
+  "name": "Product launch page",
+  "difficulty": "easy",
+  "prompt": "Create a launch page for a small invoicing product. Include a clear value proposition, three features, pricing, FAQ accordion and a demo-request form. Validate email locally and show a confirmation without sending data. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. Support keyboard use and reduced motion.",
+  "checks": [
+   "At 390px, all content fits without horizontal scroll.",
+   "FAQ answers toggle by mouse and keyboard.",
+   "Invalid email shows a specific error; valid email shows a local confirmation.",
+   "Pricing and primary action remain easy to find."
+  ]
+ },
+ {
+  "id": "checklist",
+  "name": "Launch checklist",
+  "difficulty": "easy",
+  "prompt": "Build a team launch checklist with Product, Marketing and Operations groups, ten sample tasks, add-task input, complete toggles, remaining-task filter and overall progress. Keep state in memory. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. Support keyboard use and reduced motion.",
+  "checks": [
+   "Add a task to a chosen group.",
+   "Complete and reopen a task; progress changes correctly.",
+   "Filter remaining tasks; finished tasks disappear.",
+   "An empty task cannot be added."
+  ]
+ },
+ {
+  "id": "pricing",
+  "name": "Cloud cost calculator",
+  "difficulty": "medium",
+  "prompt": "Build a cloud cost calculator with clearly labeled fictional rates: compute $0.08 per hour, storage $0.02 per GB, transfer $0.05 per GB. Inputs control quantities, monthly hours start at 730, and a breakdown updates live. Include reset and reject negative values. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. Support keyboard use and reduced motion.",
+  "checks": [
+   "Compute 10 hours, 100GB storage, 20GB transfer totals $3.80.",
+   "Changing one input updates its line and the total.",
+   "Negative or nonnumeric values cannot produce a plausible quote.",
+   "Reset restores documented defaults."
+  ]
+ },
+ {
+  "id": "dashboard",
+  "name": "Subscription dashboard",
+  "difficulty": "medium",
+  "prompt": "Build a subscription dashboard with labeled sample revenue, churn and customers. Include a date range, SVG revenue chart, customer search, plan filter, sort and an empty-result state. Compute visible totals from consistent in-memory sample data. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. Support keyboard use and reduced motion.",
+  "checks": [
+   "Plan filter and search combine correctly.",
+   "Sorting reverses customer order without losing the filter.",
+   "Empty results show a useful reset action.",
+   "Chart and totals respond to date changes."
+  ]
+ },
+ {
+  "id": "booking",
+  "name": "Service booking",
+  "difficulty": "medium",
+  "prompt": "Build a consulting booking page with a weekly calendar and available slots, service choice, customer details, validation, confirmation and cancel. Block conflicting bookings and past dates; store state only in memory. Label the calendar timezone. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. Support keyboard use and reduced motion.",
+  "checks": [
+   "Choose service and slot, submit valid details and see them in confirmation.",
+   "The same slot cannot be booked twice.",
+   "Cancel frees the selected slot.",
+   "Past slots and invalid input cannot be submitted."
+  ]
+ },
+ {
+  "id": "incidents",
+  "name": "Incident explorer",
+  "difficulty": "hard",
+  "prompt": "Create an incident explorer for cloud operators with sample events, severity filters, search, time-ordered timeline, expandable details, acknowledge action, and summary counts. Include keyboard navigation and narrow-screen layout. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. Support keyboard use and reduced motion.",
+  "checks": [
+   "Search and severity filters combine.",
+   "Events stay ordered by timestamp.",
+   "Acknowledging an event updates both list and counts.",
+   "Details remain usable at 390px and by keyboard."
+  ]
+ },
+ {
+  "id": "workflow",
+  "name": "Workflow editor",
+  "difficulty": "hard",
+  "prompt": "Build a visual workflow editor with draggable task nodes, connections, node editing, delete, undo and redo. Provide keyboard controls and a text-list alternative. Reject cycles. Include a sample workflow and a local simulation that highlights execution order without making network calls. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. Support keyboard use and reduced motion.",
+  "checks": [
+   "Move and rename nodes; labels and connections stay aligned.",
+   "Adding a cycle is rejected with an explanation.",
+   "Delete then undo restores the node and its connections.",
+   "Simulation visits nodes in valid dependency order."
+  ]
+ },
+ {
+  "id": "globe",
+  "name": "Global service globe",
+  "difficulty": "hard",
+  "prompt": "Create an interactive 3D Earth with canvas or native WebGL, no libraries. Plot eight cloud regions with clearly fictional latency and status data. Support rotate, zoom, selecting a region and a keyboard-accessible location list. Add reduced-motion mode and a pause control. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. Support keyboard use and reduced motion.",
+  "checks": [
+   "Rotation changes the visible hemisphere and hides far-side markers.",
+   "Zoom stays within usable bounds.",
+   "Marker and list selections show the same region data.",
+   "Pause stops animation; keyboard selection still works."
+  ]
+ },
+ {
+  "id": "routing_game",
+  "name": "Delivery routing game",
+  "difficulty": "hard",
+  "prompt": "Create a grid delivery game with a depot, packages, obstacles, moves counter, reset and a win condition. Let a user move with arrow keys or touch controls. Add an optional shortest-path hint, deterministic starting board and accessible instructions. Use canvas or DOM only. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. Support keyboard use and reduced motion.",
+  "checks": [
+   "Movement cannot cross walls or leave the board.",
+   "Collecting each package removes it exactly once.",
+   "Returning all packages to the depot triggers a win.",
+   "Reset restores board, score and counters.",
+   "Hint avoids obstacles and reaches the next target."
+  ]
+ },
+ {
+  "id": "voxel",
+  "name": "Voxel construction world",
+  "difficulty": "very hard",
+  "prompt": "Build a small original voxel construction game using native WebGL or a custom canvas renderer, without external assets or libraries. Include a bounded 3D terrain, rotate/zoom camera, block selection, add/remove blocks, ray-based selection, reset and a keyboard-accessible alternate edit control. Do not imitate branding. Prioritize a small working world over size. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. Support keyboard use and reduced motion.",
+  "checks": [
+   "Camera rotates and zooms without losing the world.",
+   "Selection targets the visible block rather than a hidden one.",
+   "Add and remove update geometry without corrupting adjacent blocks.",
+   "World bounds and a block-count limit are enforced.",
+   "Reset restores the initial terrain; alternate controls support keyboard editing."
+  ]
+ },
+ {
+  "id": "galaxian",
+  "name": "Galaxian-style arcade game",
+  "difficulty": "very hard",
+  "prompt": "Build an original Galaxian-style arcade space shooter that is playable in one static page. Use canvas 2D with original ship shapes, colors, title and sounds. The player moves horizontally and fires upward. At least 18 enemies move in a formation; some detach, follow curved diving paths, fire at the player, and rejoin if they survive. Include visible score, three lives, wave number, a start screen with short controls, pause/resume and game over with restart. Award points once per enemy, give a brief visible invulnerability period after damage, and start a harder wave when every enemy is destroyed. Use a fixed seeded starting wave and a delta-time loop with clamped time steps. Reset must restore all game state and never create a second animation loop. Pause when the tab loses visibility, clear held inputs on blur, and require deliberate resume. Support arrow keys or A/D, Space to fire, P or Escape to pause, and large on-screen hold controls for touch. Pointer release or cancellation must stop the action. Keep focus visible, allow keyboard access to menu controls, and prevent game keys from scrolling only while the game has focus. Fit a phone screen without clipping. Respect reduced motion by removing decorative shake/flashes, with sound off by default and an explicit mute toggle. Prioritize responsive controls and a readable battlefield over particle effects. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory.",
+  "checks": [
+   "Start with keyboard and touch. Move to both edges and fire; the ship stays on screen. Releasing or cancelling touch stops movement and firing.",
+   "Observe at least 18 enemies in formation, curved dives with enemy shots, and surviving divers returning to formation.",
+   "Shoot formation enemies and divers. Each destroyed enemy awards points once, disappears, and cannot score again.",
+   "Take a hit. Exactly one life is lost during the brief invulnerability period. At zero lives, game over stops play.",
+   "Clear all enemies. The wave counter increases, a harder wave starts, and score and remaining lives are retained.",
+   "Pause and switch tabs. Position, lives and score stay fixed while paused. Returning requires resume; no stuck movement or large time jump follows.",
+   "Restart from game over and repeat twice. Score, lives, enemies, shots and wave reset. Game speed and firing rate do not multiply.",
+   "At phone width, controls and score remain visible. Menus work by keyboard. Sound starts off and mute works; reduced motion removes decorative flashes/shake."
+  ]
+ },
+ {
+  "id": "slinky_escalator",
+  "name": "Rainbow slinky on an up escalator",
+  "difficulty": "very hard",
+  "prompt": "Make a single HTML file showing a realistic rainbow slinky walking down an up escalator in perpetual motion. Show the treads moving uphill past a fixed reference. As one end of the slinky rides a tread, the other tips over it and lands one tread lower. The ends exchange roles. Use gravity, spring forces, inertia and contact with the moving treads to determine each landing. The coils should bunch under load, stretch across the gap and recoil on contact. Keep the walking slinky in view as the powered escalator carries it uphill. Do not use keyframed poses, a prescribed path or periodic resets to fake the motion. Begin paused. Include three visible buttons. Start begins or resumes the simulation, Stop freezes both the spring and the treads in place, and Reset restores the initial pose, velocities and tread positions and leaves everything paused. Repeated presses must keep the same speed. Make the coils and contact points easy to see on a phone and desktop. Support keyboard controls, visible focus and reduced motion. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory.",
+  "checks": [
+   "Press Start and watch a tread pass a fixed point on the rail. The tread travels uphill while the rainbow slinky lands on successively lower treads.",
+   "Watch two successive landings. The ends take turns bearing weight. Coils compress at the supported end, stretch over the gap and recoil when the free end contacts a tread. Note any visible floating or clipping.",
+   "Inspect the original HTML in Source & checks. Identify the state updated by gravity and spring forces and where contact with a moving tread changes the spring's motion. A clock choosing poses or driving the ends along a fixed curve fails this check.",
+   "Watch for at least 60 seconds. The walking continues in view across many treads without a cut, teleport, restart, collapse or drift off screen.",
+   "Press Stop mid-stride and wait. Both the coil pose and the tread positions stay fixed. Start resumes from that instant without a jump. Press Start again and check that the speed stays the same.",
+   "Reset once while running and once while stopped. Each time the same starting pose and tread positions return and stay still. Start again and compare the first stride and speed with the original.",
+   "At phone and desktop widths, see the whole stride and reach all three buttons. With reduced motion enabled the scene waits for Start. Use Tab and Enter or Space to operate every control with visible focus."
+  ]
+ },
+ {
+  "id": "streaming_home",
+  "name": "Streaming home (Netflix-style)",
+  "difficulty": "very hard",
+  "prompt": "Design and build the signed-in home screen of a Netflix-style streaming service under an original brand name. Invent at least 36 fictional titles with genre, year, rating, runtime, a match score and a one-line synopsis. Draw every poster and backdrop with CSS, SVG or canvas so each title is recognizable and no two look the same; do not use image files, real titles, real logos or the red-on-black look of an existing service. Include: a profile picker with at least three profiles that leads into the home screen; a top bar that turns solid after scrolling, with browse links, search and the active profile; a full-width featured billboard that rotates through three titles and has Play, More info and a pause control; at least six horizontally scrolling rows (for example Continue watching with progress bars, Trending, a numbered Top 10, My list, and two genre rows) with previous and next buttons; a card that expands on hover or focus to show actions and metadata without pushing neighbors off screen; a details dialog with a synopsis, an episode list for series, similar titles and an add-to-list toggle; a search view that filters by title and genre as you type and has an empty state; and a mock player with play/pause, a seekable progress bar and a way back. My list and watch progress must update everywhere they appear. Arrow keys move focus within and between rows, Enter opens details, and Escape closes the dialog and returns focus to the card. Lay it out for 390px, 1280px and 1920px wide screens. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. The page runs in a sandboxed frame: do not use localStorage, cookies, pointer lock, workers, the system clipboard, alert, confirm, prompt, downloads or form submission. Support keyboard use and reduced motion.",
+  "checks": [
+   "Pick each profile. The home screen opens with that profile shown in the top bar, and My list and Continue watching are kept separately per profile.",
+   "The billboard rotates through three titles, the pause control stops rotation, and Play and More info act on the title currently shown.",
+   "Six or more rows scroll with their previous and next buttons and by touch or trackpad. The Top 10 row is numbered 1 to 10. No card is cut off mid-focus.",
+   "Posters are drawn in code, differ clearly between titles, and stay legible at phone and desktop sizes. No real title, logo or brand color scheme is used.",
+   "Hover and keyboard focus expand a card with its actions and metadata. First and last cards in a row expand inward, not off screen.",
+   "The details dialog shows synopsis, episodes for a series and similar titles. Escape and the close button both return focus to the card that opened it.",
+   "Add a title from a card, then remove it from the dialog. The My list row, the card button and the dialog toggle agree after every change.",
+   "Typing filters by title and by genre as you type. A query with no matches shows an empty state with a way back to browsing.",
+   "Play opens the mock player. Seeking and closing it updates that title's progress bar under Continue watching.",
+   "At 390px nothing scrolls sideways except the rows. At 1920px the layout uses the width without stretched cards. Reduced motion stops the billboard rotation and card zoom."
+  ]
+ },
+ {
+  "id": "voxel_sandbox",
+  "name": "First-person voxel sandbox (Minecraft-style)",
+  "difficulty": "expert",
+  "prompt": "Build an original first-person voxel sandbox in the style of Minecraft, using native WebGL or a custom canvas renderer. Do not use Minecraft's name, textures, characters or sounds; generate every block texture in code. Generate a world of at least 48 by 48 columns and 32 blocks tall from a fixed seed, with hills, a water level, beaches, a few trees and at least one cave or overhang. Use at least seven block types (for example grass, dirt, stone, sand, wood, leaves, water, glass, lamp). Build chunk meshes that skip hidden faces and rebuild only the chunks an edit touches; drawing one cube per block per frame is not acceptable. The player walks with WASD or arrow keys, looks by dragging the mouse or with Q/E and R/F, jumps with Space, and collides with blocks on every axis. Include gravity, a fly toggle, and swimming or slower movement in water. Left click breaks the targeted block and right click or a Place key places the selected block against the targeted face, within a reach of about five blocks, never inside the player. Find the target with a ray that steps through the voxel grid, and outline the targeted block. Show a crosshair, a hotbar with nine slots chosen by number keys or scroll, the selected block name, position and frames per second. Add simple directional lighting with darker side and bottom faces, distance fog, a day and night cycle that can be paused, and on-screen touch controls for move, look, jump, break and place. Include Save and Load buttons that keep the edited world in a memory slot, a Reset that regenerates the seeded world, and a Pause menu with the controls listed. Clamp the time step, pause when the tab is hidden, and never start a second render loop. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. The page runs in a sandboxed frame: do not use localStorage, cookies, pointer lock, workers, the system clipboard, alert, confirm, prompt, downloads or form submission. Support keyboard use and reduced motion.",
+  "checks": [
+   "The world shows hills, water at one level, sand near water and trees. Reset regenerates the identical terrain every time.",
+   "Walk into a wall, up a one-block step with a jump, and off a ledge. The player never passes through blocks, never sticks in a corner, and falls with gravity.",
+   "Drag-look and the keyboard look keys both turn the view smoothly. Pitch stops before flipping upside down.",
+   "The outline follows the block under the crosshair. A block behind another is never selected, and blocks beyond reach are not affected.",
+   "Break five blocks and place five against different faces. Geometry updates at once with no holes, no leftover faces and no block placed inside the player.",
+   "Number keys and scroll change the selected slot. The placed block matches the selected type and its name is shown.",
+   "With the whole world generated, walking and editing stay smooth. The frame counter does not collapse after 30 edits.",
+   "Movement changes in water. The fly toggle turns gravity off and on without dropping the player through the ground.",
+   "Edit the world, Save, edit again, then Load. The saved edits return and later ones are gone. Reset restores the seeded world.",
+   "Pause shows the controls and freezes the world. Switching tabs and returning causes no jump. Touch controls can move, look, break and place at phone width."
+  ]
+ },
+ {
+  "id": "desktop_os",
+  "name": "Desktop in a browser tab",
+  "difficulty": "expert",
+  "prompt": "Build a small desktop operating environment that runs in one page, with an original name and look. Include a desktop with icons, a taskbar with a launcher menu, running-window buttons and a clock, and a window manager: windows can be dragged by the title bar, resized from edges and corners, minimized, maximized, restored and closed, they stay inside the screen, and clicking one brings it to the front. All apps share one in-memory file system with nested folders, seeded with a few sample files. Ship these apps: a file manager (navigate, create folder, rename, delete with a confirmation inside the page, open a file in the right app); a text editor (open, edit, Save and Save as into the file system, unsaved-changes marker); a terminal with pwd, ls, cd, cat, mkdir, touch, rm, mv, echo with > redirection, clear and help, command history on the up arrow, and clear errors for bad input; a calculator with correct operator precedence; a paint app with brush, eraser, color and size that can save its canvas as a file; and settings for wallpaper and light or dark theme. A change made in one app must show in the others without reopening them. Support several windows of the same app, Alt+Tab or an equivalent window switcher, and keyboard access to the launcher and window controls. At phone width windows open full screen and the taskbar stays usable. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. The page runs in a sandboxed frame: do not use localStorage, cookies, pointer lock, workers, the system clipboard, alert, confirm, prompt, downloads or form submission. Support keyboard use and reduced motion.",
+  "checks": [
+   "Open four windows. Drag, resize from a corner, minimize, restore, maximize and close each. No window can be dragged fully off screen, and clicking one raises it.",
+   "The taskbar lists every open window, marks the focused one, restores a minimized one, and the launcher menu opens every app by mouse and by keyboard.",
+   "Create a file in the terminal with echo and >. It appears in the open file manager without a reload and opens in the text editor with the same content.",
+   "Edit and Save in the text editor. The unsaved marker clears and cat in the terminal prints the new content. Save as creates a second file.",
+   "pwd, ls, cd into a nested folder and back with .., mkdir, touch, mv and rm all work. A missing path or unknown command prints an error and the shell keeps running. Up arrow recalls history.",
+   "Create a folder, rename it, move into it and delete it after an in-page confirmation. Deleting a file that is open in the editor does not crash either app.",
+   "2 + 3 * 4 gives 14 and division by zero is handled. A drawing saved from paint appears as a file and reopens.",
+   "Wallpaper and theme changes apply to the desktop and to every open window at once.",
+   "The window switcher cycles focus by keyboard. At 390px windows fill the screen and the taskbar still switches between them."
+  ]
+ },
+ {
+  "id": "spreadsheet",
+  "name": "Spreadsheet with a formula engine",
+  "difficulty": "expert",
+  "prompt": "Build a spreadsheet with columns A to Z and at least 100 rows, sticky row and column headers, and a formula bar that shows the raw content of the selected cell. Write the formula engine yourself with a tokenizer and parser; do not use eval or the Function constructor. Formulas start with = and support numbers, text in double quotes, + - * / ^, unary minus, parentheses, comparison operators, the & text join, cell references, ranges such as A1:B10, absolute references with $, and the functions SUM, AVERAGE, MIN, MAX, COUNT, IF, ROUND, ABS, AND, OR, NOT, CONCAT and LEN, with nesting. Track dependencies so that changing a cell recalculates only what depends on it, in the right order. Show #DIV/0!, #NAME?, #VALUE!, #REF! and #CYCLE! in the cells they apply to without breaking unrelated cells. Support click and Shift+click range selection, arrow keys, Tab and Enter to move, F2 or typing to edit, Escape to cancel, Delete to clear, copy and paste of a range through an internal clipboard with relative references adjusted and absolute ones kept, a fill handle or Fill down command, undo and redo, column resize, bold, alignment and number formats (plain, two decimals, percent, currency), and a status bar with the sum, average and count of the selection. Import CSV from a text area and show CSV export in a text area. Start with a small labeled sample budget that uses formulas. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. The page runs in a sandboxed frame: do not use localStorage, cookies, pointer lock, workers, the system clipboard, alert, confirm, prompt, downloads or form submission. Support keyboard use and reduced motion.",
+  "checks": [
+   "=2+3*4 shows 14, =(2+3)*4 shows 20, =-2^2 and =2^3^2 follow a stated rule consistently, and =\"a\"&1+1 shows a2.",
+   "=SUM(A1:A5), =AVERAGE(A1:A5), =IF(A1>10,\"high\",\"low\") and =ROUND(SUM(A1:B2)/3,2) return correct values. Functions nest.",
+   "Change a cell that three chained formulas depend on. All three update in order without a reload, and unrelated cells keep their values.",
+   "Division by zero, an unknown function, text in arithmetic and a deleted reference each show their own error. A cell that refers to itself, directly or through another cell, shows #CYCLE! and the sheet stays usable.",
+   "Copy =A1+$B$1 down two rows and across one column. Relative parts shift, the absolute part does not, and the formula bar shows the adjusted text.",
+   "The source contains no eval or Function constructor for formulas. =alert(1) and =window.x show #NAME? rather than running.",
+   "Arrow keys, Tab, Enter, F2, Escape and Delete behave as in a spreadsheet. Undo and redo step through edits, pastes and format changes.",
+   "Selecting a range updates sum, average and count in the status bar. Number formats change the display but not the stored value.",
+   "Pasting CSV with quoted commas imports into the right cells. Export shows computed values and round-trips through import."
+  ]
+ },
+ {
+  "id": "design_tool",
+  "name": "Vector design tool (Figma-style)",
+  "difficulty": "expert",
+  "prompt": "Build a vector design tool in the style of Figma under an original name. The canvas pans with Space+drag or the middle button and zooms around the pointer from 10% to 800%, with the zoom level shown and a Fit command. Tools: select, rectangle, ellipse, line, text and a pen that makes a polyline. Selected objects show a bounding box with eight resize handles and a rotate handle; Shift keeps proportions while resizing and snaps rotation to 15 degrees. Support click selection of the top object, Shift+click to add, drag on empty canvas for a marquee, moving with the mouse and with arrow keys (Shift for 10 units), and smart guides that snap to the edges and centers of other objects and show a line while snapping. Include a layers panel with rename, reorder by drag or buttons, hide and lock; a properties panel with position, size, rotation, fill, stroke color and width, corner radius, opacity, and font size for text, all editable by typing; align left, center, right, top, middle and bottom and distribute for multi-selection; group and ungroup; duplicate, copy and paste through an internal clipboard, and delete; bring forward and send backward; and undo and redo for every change, at least 50 steps deep. Double-click text to edit it in place. Show an SVG export of the document in a text area and load the same SVG back. Start with a small sample composition. List the shortcuts in a help panel. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. The page runs in a sandboxed frame: do not use localStorage, cookies, pointer lock, workers, the system clipboard, alert, confirm, prompt, downloads or form submission. Support keyboard use and reduced motion.",
+  "checks": [
+   "Draw a rectangle, ellipse, line, text and polyline. Each appears in the layers panel and can be selected again by clicking it.",
+   "Move, resize from a corner and an edge, and rotate a shape. Handles stay on the rotated box, Shift constrains, and the properties panel shows the new numbers.",
+   "Zoom in and out around the pointer and pan. Selection, handles and drawing stay accurate at 25% and at 400%.",
+   "Marquee and Shift+click select several objects. They move together, and align and distribute place them correctly.",
+   "Dragging one object near another snaps to its edge and to its center and shows a guide while snapped.",
+   "Reordering layers changes what is drawn on top. A hidden layer is not drawn, and a locked layer cannot be selected on the canvas.",
+   "Typing a fill, stroke width, radius, opacity or size updates the object at once. Invalid input is rejected without breaking the object.",
+   "Group, move, ungroup, then undo back to the start and redo forward. Every step restores exactly, including layer order.",
+   "The exported SVG renders the same picture. Loading it back recreates editable objects with the same properties.",
+   "Tools, delete, duplicate, undo and nudge work from the keyboard, and the help panel lists the shortcuts that work."
+  ]
+ },
+ {
+  "id": "chess_engine",
+  "name": "Chess with a computer opponent",
+  "difficulty": "very hard",
+  "prompt": "Build a chess game against a computer opponent. Implement the full rules yourself: legal move generation for every piece, check, checkmate, stalemate, castling on both sides with all its conditions, en passant, promotion with a choice of piece, the fifty-move rule, threefold repetition and insufficient material. Draw the pieces with SVG or CSS, not letters alone. Moves can be made by drag, by click-click and by keyboard; show legal targets for the selected piece, the last move, and a king in check. Include a move list in standard algebraic notation with check and mate marks, captured pieces, clocks that can be turned off, new game as either color, flip board, undo that takes back a full turn, and a FEN field to load and copy a position. The computer opponent uses a search you write (minimax with alpha-beta pruning and a material and piece-square evaluation), with three levels. It must always play a legal move, take a mate in one when it has it, and run without freezing the page: search in short time slices on the main thread and show that it is thinking. Add a self-test button that counts legal moves from the starting position to depth 3 and reports the totals 20, 400 and 8902. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. The page runs in a sandboxed frame: do not use localStorage, cookies, pointer lock, workers, the system clipboard, alert, confirm, prompt, downloads or form submission. Support keyboard use and reduced motion.",
+  "checks": [
+   "Each piece moves only as chess allows. Illegal moves are refused and a move that leaves your own king in check cannot be made.",
+   "Castling works on both sides and is refused after the king or that rook has moved, through check, out of check and through an attacked square.",
+   "En passant is offered only on the move right after the double step. Promotion asks for the piece and underpromotion to a knight works.",
+   "A mate position loaded by FEN is announced as checkmate and a stalemate position as a draw. Threefold repetition and king against king end the game as draws.",
+   "The self-test reports 20, 400 and 8902 legal moves at depths 1, 2 and 3 from the starting position.",
+   "The computer replies with a legal move at every level, plays a mate in one from a test position, and captures a queen left hanging at the top level.",
+   "While the computer thinks the page still scrolls and the thinking indicator shows. The top level answers within about ten seconds.",
+   "The move list shows correct notation including castling, captures, promotion, check and mate. Undo takes back both moves of a turn and the list, clocks and captured pieces follow.",
+   "A copied FEN loads back to the same position with the same side to move, castling rights and en passant square.",
+   "A full game can be played by drag, by clicking, and by keyboard alone with the selected square announced. The board fits a phone screen."
+  ]
+ },
+ {
+  "id": "code_playground",
+  "name": "Programming language with a debugger",
+  "difficulty": "expert",
+  "prompt": "Design a small programming language and build its playground: an editor, an interpreter you write yourself, a console and a step debugger. Do not use eval, the Function constructor or JavaScript source generation; write a tokenizer, a parser that builds a syntax tree, and a tree-walking or bytecode interpreter. The language needs numbers, strings, booleans, null, arrays and maps with literals and indexing, variables with block scope, arithmetic and comparison with normal precedence, and, or and not with short-circuiting, if and else, while and for loops with break and continue, functions with parameters, return, recursion and closures, comments, and built-ins for print, len, push, range, string conversion and math helpers. Errors must name the line and column and say what was expected, for syntax errors and for runtime errors such as an undefined variable, a wrong argument count, a bad index or division by zero. Stop a runaway program with a step limit and a Stop button so the page never freezes. The editor has line numbers, syntax highlighting, auto-indent, Tab handling that can be escaped with a documented key, and marks the error line. The debugger sets breakpoints by clicking a line number and offers Run, Pause, Step into, Step over, Step out and Continue, highlights the current line, and shows the call stack and the variables of each frame. Ship at least five example programs in a menu, including FizzBuzz, recursive Fibonacci, a closure counter, a sort you wrote in the language, and prime numbers up to 100, plus a short language reference panel. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. The page runs in a sandboxed frame: do not use localStorage, cookies, pointer lock, workers, the system clipboard, alert, confirm, prompt, downloads or form submission. Support keyboard use and reduced motion.",
+  "checks": [
+   "Every bundled example runs and prints correct output, including the sort and the primes.",
+   "2 + 3 * 4 prints 14. A variable declared inside a block is not visible after it, and an inner variable shadows an outer one.",
+   "Recursion works to a depth of at least 500. A function that returns a function keeps its own captured counter across calls.",
+   "Array and map literals, indexing, assignment by index, len and push work. A bad index reports a runtime error with its line.",
+   "A missing bracket, an unknown name, a wrong argument count and division by zero each produce a message with line and column, and the editor marks the line.",
+   "A while true loop can be stopped with Stop or ends at the step limit with a message. The page stays responsive throughout.",
+   "The source has a tokenizer, a parser and an interpreter and contains no eval, Function constructor or generated script. A program cannot reach window or document.",
+   "A breakpoint pauses before its line runs. Continue runs to the next breakpoint. The current line is highlighted.",
+   "Step over runs a call as one step, Step into enters it and Step out returns to the caller. The call stack and each frame's variables update at every step.",
+   "Highlighting distinguishes keywords, strings, numbers and comments. Auto-indent follows blocks, and keyboard users can leave the editor."
+  ]
+ },
+ {
+  "id": "music_studio",
+  "name": "Music studio with a synth and sequencer",
+  "difficulty": "very hard",
+  "prompt": "Build a browser music studio with the Web Audio API. Synthesize every sound in code; do not load samples. Start audio only after a user gesture and show a clear Start audio control. Include a drum machine with kick, snare, closed hat, open hat and clap on a 16-step grid; a bass track and a lead track, each with a piano-roll editor over two octaves where notes can be added, moved, resized and deleted; and a synth panel per melodic track with oscillator type, an attack, decay, sustain and release envelope, a low-pass filter with cutoff and resonance, and a delay or reverb send. Schedule notes ahead of time against the audio clock so timing stays steady when the page is busy; do not drive note timing with setInterval or animation frames alone. Add transport with play, stop, a tempo from 60 to 200 BPM that can change during playback, swing, a metronome, and a moving playhead. Add a mixer with volume, pan, mute and solo per track, level meters and a master limiter. Support at least four patterns that can be copied, cleared and chained into a song. Let the computer keyboard play the selected synth with correct note off, show an oscilloscope or spectrum display, and ship two demo patterns. Offer undo and redo for edits and a text export and import of the whole project as JSON in a text area. Return one complete HTML file with inline CSS and JavaScript. No external URLs, libraries, installs, or network requests. Keep state in memory. The page runs in a sandboxed frame: do not use localStorage, cookies, pointer lock, workers, the system clipboard, alert, confirm, prompt, downloads or form submission. Support keyboard use and reduced motion.",
+  "checks": [
+   "No sound plays before a click. After Start audio, each drum pad and each synth can be auditioned and they sound different from each other.",
+   "Toggling steps changes what plays on the next pass. The playhead matches what is heard and the loop restarts cleanly at step 1.",
+   "At 140 BPM the beat stays steady while you scroll and edit notes. Swing audibly delays the off-beat steps.",
+   "Add, move, resize and delete notes for bass and lead. Long notes hold for their length and overlapping notes do not cut each other off incorrectly.",
+   "Changing oscillator, envelope, filter cutoff and the effect send changes the sound as labeled. A long release rings out after note off without clicks.",
+   "Tempo changes during playback take effect without stopping or double-triggering. Stop silences everything, including hanging notes.",
+   "Volume, pan, mute and solo act per track, meters follow the audio, and the master does not clip harshly when every track is loud.",
+   "Copy a pattern, edit the copy, and chain patterns into a song. Playback follows the chain and the originals are unchanged.",
+   "Computer keys play notes, holding a key does not retrigger, and releasing it stops the note.",
+   "Export shows the project as JSON. Importing it into a cleared studio restores patterns, notes, synth settings and tempo. Undo and redo cover note and step edits."
+  ]
+ }
+]

@@ -1,0 +1,155 @@
+/* Akamai brand tokens. Navy, white and blue are the core. Orange is the one
+   accent, used sparingly. Green and red only report state. Layout code reads
+   these names and never writes a hex value of its own. */
+
+@font-face {
+  font-family: "Instrument Sans";
+  src: url("/fonts/InstrumentSans.ttf") format("truetype-variations");
+  font-weight: 400 700;
+  font-stretch: 75% 100%;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono.ttf") format("truetype-variations");
+  font-weight: 100 800;
+  font-display: swap;
+}
+
+:root {
+  /* Brand, raw */
+  --ak-navy: #002f6c;
+  --ak-navy-deep: #001a40;
+  --ak-blue: #00a4eb;
+  --ak-orange: #ff8b00;
+  --ak-green: #21c08b;
+  --ak-red: #ff5c5c;
+
+  /* Surfaces */
+  --ak-bg: #f4f6fa;
+  --ak-surface: #ffffff;
+  --ak-surface-2: #eef2f8;
+  --ak-surface-3: #e1e8f2;
+  --ak-text: #0b1f3a;
+  --ak-text-muted: #56677d;
+  --ak-text-faint: #62758b;
+  --ak-border: #dbe3ee;
+  --ak-border-strong: #b6c4d8;
+
+  /* The raw blue, green, orange and red are too light for text on white. Ink
+     versions carry text. The raw colors fill bars, rings and dots. */
+  --ak-blue-ink: #0a6cad;
+  --ak-green-ink: #12805a;
+  --ak-orange-ink: #a85a00;
+  --ak-red-ink: #c62f2f;
+  --ak-blue-soft: #e3f4fd;
+  --ak-green-soft: #e2f7ef;
+  --ak-orange-soft: #fff1de;
+  --ak-red-soft: #ffe9e9;
+
+  --ak-primary: var(--ak-navy);
+  --ak-on-primary: #ffffff;
+  --ak-primary-hover: #0a418a;
+  --ak-accent: var(--ak-orange);
+  --ak-link: var(--ak-blue-ink);
+  --ak-track: #e1e8f2; /* the empty part of a meter */
+  --ak-code-bg: #0a1d3d;
+  --ak-code-text: #d7e6f7;
+  --ak-nav-bg: var(--ak-surface);
+  --ak-overlay: rgb(3 18 42 / 48%);
+
+  /* Type */
+  --ak-font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ak-font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --ak-text-display: clamp(2rem, 1.2rem + 2.6vw, 3.25rem);
+  --ak-text-h1: clamp(1.9rem, 2.8vw, 2.8rem);
+  --ak-text-h2: 1.25rem;
+  --ak-text-h3: 1.0625rem;
+  --ak-text-lead: 1.0625rem;
+  --ak-text-body: 0.9375rem;
+  --ak-text-small: 0.8125rem;
+  --ak-text-caption: 0.6875rem;
+  --ak-weight-regular: 400;
+  --ak-weight-medium: 500;
+  --ak-weight-semibold: 600;
+  --ak-weight-bold: 700;
+
+  /* Space, on a 4 px base */
+  --ak-space-1: 4px;
+  --ak-space-2: 8px;
+  --ak-space-3: 12px;
+  --ak-space-4: 16px;
+  --ak-space-5: 20px;
+  --ak-space-6: 24px;
+  --ak-space-8: 32px;
+  --ak-space-10: 40px;
+  --ak-space-12: 48px;
+  --ak-space-16: 64px;
+
+  --ak-radius-sm: 6px;
+  --ak-radius-md: 10px;
+  --ak-radius-lg: 16px;
+  --ak-radius-full: 999px;
+
+  --ak-shadow-sm: 0 1px 2px rgb(0 31 58 / 7%);
+  --ak-shadow-md: 0 6px 20px rgb(0 31 58 / 9%);
+  --ak-shadow-lg: 0 18px 48px rgb(0 31 58 / 16%);
+
+  --ak-dur-fast: 120ms;
+  --ak-dur-base: 200ms;
+  --ak-dur-slow: 360ms;
+  --ak-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --ak-focus: 0 0 0 2px var(--ak-surface), 0 0 0 4px var(--ak-blue);
+  --ak-nav-h: 60px;
+  --ak-page-width: 1600px;
+  --ak-page-gutter: clamp(16px, 2.8vw, 42px);
+
+  color-scheme: light;
+}
+
+/* Dark is its own set of steps on navy, not an inverted light theme. */
+:root[data-theme="dark"] {
+  --ak-bg: #0c1626;
+  --ak-surface: #142236;
+  --ak-surface-2: #1b2c42;
+  --ak-surface-3: #263b55;
+  --ak-text: #e9f1fb;
+  --ak-text-muted: #a2b6d1;
+  --ak-text-faint: #98a9c1;
+  --ak-border: #2a3d56;
+  --ak-border-strong: #455e7e;
+
+  --ak-blue-ink: #58c6f7;
+  --ak-green-ink: #4fd6a6;
+  --ak-orange-ink: #ffab47;
+  --ak-red-ink: #ff8585;
+  --ak-blue-soft: #06365f;
+  --ak-green-soft: #0a3d3a;
+  --ak-orange-soft: #40300f;
+  --ak-red-soft: #46202f;
+
+  --ak-primary: var(--ak-blue);
+  --ak-on-primary: #00152f;
+  --ak-primary-hover: #35b9f2;
+  --ak-track: #12325f;
+  --ak-code-bg: #000c20;
+  --ak-overlay: rgb(0 6 18 / 62%);
+
+  --ak-shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);
+  --ak-shadow-md: 0 6px 20px rgb(0 0 0 / 34%);
+  --ak-shadow-lg: 0 18px 48px rgb(0 0 0 / 46%);
+
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}

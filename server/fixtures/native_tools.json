@@ -1,0 +1,1110 @@
+[
+ {
+  "id": "coding_agent_tools",
+  "name": "Claude Code-style tools",
+  "group": "Tool use",
+  "goal": "Choose a coding tool and carry file paths and observed values into later calls.",
+  "grader": "tool_calls",
+  "system": "You are working in a simulated coding workspace. Use the supplied native functions, one call per turn. Prefer the dedicated file tools for file operations. Use the directory, literal strings, and exact glob or regex supplied. Omit optional fields when no range is requested. If the user asks for clarification before acting, ask in plain text.",
+  "notes": "Six simplified Claude Code-style functions use the documented names Read, Glob, Grep, Edit, Write and Bash. The schemas here are a subset used by this benchmark. Pi and Claude Code do not run. File contents and shell results come from fixtures.",
+  "sources": [
+   "https://code.claude.com/docs/en/tools-reference"
+  ],
+  "tools": [
+   {
+    "type": "function",
+    "function": {
+     "name": "Read",
+     "description": "Return a file's contents. Read a line range with a one-based offset and a line count. Omit both for a whole-file read.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "file_path": {
+        "type": "string",
+        "description": "Absolute workspace path."
+       },
+       "offset": {
+        "type": "integer",
+        "default": 1,
+        "description": "First line to return, starting at 1."
+       },
+       "limit": {
+        "type": "integer",
+        "description": "Number of lines to return."
+       }
+      },
+      "required": [
+       "file_path"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "Glob",
+     "description": "Find file paths by a filename glob, rooted in the supplied directory.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "path": {
+        "type": "string",
+        "description": "Absolute workspace path."
+       },
+       "pattern": {
+        "type": "string",
+        "description": "Glob relative to path, with ** for recursion."
+       }
+      },
+      "required": [
+       "path",
+       "pattern"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "Grep",
+     "description": "Search file contents using a regular expression. Restrict the search with a file glob and select what to return.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "path": {
+        "type": "string",
+        "description": "Absolute workspace path."
+       },
+       "pattern": {
+        "type": "string",
+        "description": "Regular expression to search for."
+       },
+       "glob": {
+        "type": "string",
+        "description": "File glob relative to the search directory."
+       },
+       "output_mode": {
+        "type": "string",
+        "enum": [
+         "content",
+         "files_with_matches",
+         "count"
+        ]
+       }
+      },
+      "required": [
+       "path",
+       "pattern",
+       "glob",
+       "output_mode"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "Edit",
+     "description": "Replace exact text in an existing file. The original string must be unique for a single replacement.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "file_path": {
+        "type": "string",
+        "description": "Absolute workspace path."
+       },
+       "old_string": {
+        "type": "string",
+        "description": "Exact text to replace."
+       },
+       "new_string": {
+        "type": "string",
+        "description": "Exact replacement."
+       },
+       "replace_all": {
+        "type": "boolean",
+        "description": "Replace every occurrence when true, or a unique occurrence when false."
+       }
+      },
+      "required": [
+       "file_path",
+       "old_string",
+       "new_string",
+       "replace_all"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "Write",
+     "description": "Write the entire supplied content to a file. Use for new files or intentional full rewrites.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "file_path": {
+        "type": "string",
+        "description": "Absolute workspace path."
+       },
+       "content": {
+        "type": "string",
+        "description": "Complete file contents, including any requested trailing newline."
+       }
+      },
+      "required": [
+       "file_path",
+       "content"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "Bash",
+     "description": "Run a shell command from /workspace. The benchmark records the proposed command as data.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "command": {
+        "type": "string",
+        "description": "The exact shell command."
+       }
+      },
+      "required": [
+       "command"
+      ],
+      "additionalProperties": false
+     }
+    }
+   }
+  ],
+  "examples": [
+   {
+    "id": "coding_agent_tools_01",
+    "input": "A reviewer cited line 118 of /workspace/src/usage.ts. Read lines 115 through 122 inclusive. This request is about that span of the file.",
+    "expected": {
+     "steps": [
+      {
+       "name": "Read",
+       "arguments": {
+        "file_path": "/workspace/src/usage.ts",
+        "offset": 115,
+        "limit": 8
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "coding_agent_tools_02",
+    "input": "Within /workspace/packages/ui, list the paths of TypeScript files containing the exact symbol pattern \\bformatPrice\\b. Use the recursive file filter **/*.ts. I only want filenames.",
+    "expected": {
+     "steps": [
+      {
+       "name": "Grep",
+       "arguments": {
+        "path": "/workspace/packages/ui",
+        "pattern": "\\bformatPrice\\b",
+        "glob": "**/*.ts",
+        "output_mode": "files_with_matches"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "coding_agent_tools_03",
+    "input": "A package under /workspace/apps owns exactly one **/locales/catalog.toml. Locate it by filename, then read its first 6 lines. Use the resulting path as returned.",
+    "expected": {
+     "steps": [
+      {
+       "name": "Glob",
+       "arguments": {
+        "path": "/workspace/apps",
+        "pattern": "**/locales/catalog.toml"
+       },
+       "observation": {
+        "paths": [
+         "/workspace/apps/atlas/web/locales/catalog.toml"
+        ]
+       }
+      },
+      {
+       "name": "Read",
+       "arguments": {
+        "file_path": "/workspace/apps/atlas/web/locales/catalog.toml",
+        "offset": 1,
+        "limit": 6
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "coding_agent_tools_04",
+    "input": "Both the admin package and the storefront package have a README with a Getting started section. I need that heading changed in one of them. Before opening or editing a file, ask me which package I mean.",
+    "expected": {
+     "steps": [],
+     "clarifies": [
+      "package",
+      "admin",
+      "storefront",
+      "which readme",
+      "which directory"
+     ]
+    }
+   },
+   {
+    "id": "coding_agent_tools_05",
+    "input": "Under /workspace/guides, count the lines matching ^TODO: in each file matching **/*.md. I need counts per file for the triage sheet.",
+    "expected": {
+     "steps": [
+      {
+       "name": "Grep",
+       "arguments": {
+        "path": "/workspace/guides",
+        "pattern": "^TODO:",
+        "glob": "**/*.md",
+        "output_mode": "count"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "coding_agent_tools_06",
+    "input": "Create the new file /workspace/docs/units.txt. Its entire content should be two lines, first Pixels and then Seconds, with a single newline after each line.",
+    "expected": {
+     "steps": [
+      {
+       "name": "Write",
+       "arguments": {
+        "file_path": "/workspace/docs/units.txt",
+        "content": "Pixels\nSeconds\n"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "coding_agent_tools_07",
+    "input": "We already read /workspace/styles/theme.css together. Rename every occurrence of the literal --tone-muted to --ink-muted in this file. Keep the rest of the stylesheet as it is.",
+    "expected": {
+     "steps": [
+      {
+       "name": "Edit",
+       "arguments": {
+        "file_path": "/workspace/styles/theme.css",
+        "old_string": "--tone-muted",
+        "new_string": "--ink-muted",
+        "replace_all": true
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "coding_agent_tools_08",
+    "input": "Run this exact test command in the workspace root and stop there: npm test -- --runInBand calendar.test.js",
+    "expected": {
+     "steps": [
+      {
+       "name": "Bash",
+       "arguments": {
+        "command": "npm test -- --runInBand calendar.test.js"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "coding_agent_tools_09",
+    "input": "Read the complete one-line /workspace/config/channel.txt to check its current value. Then change that value to preview with one exact replacement. This file has no trailing newline.",
+    "expected": {
+     "steps": [
+      {
+       "name": "Read",
+       "arguments": {
+        "file_path": "/workspace/config/channel.txt"
+       },
+       "observation": {
+        "content": "canary-uk"
+       }
+      },
+      {
+       "name": "Edit",
+       "arguments": {
+        "file_path": "/workspace/config/channel.txt",
+        "old_string": "canary-uk",
+        "new_string": "preview",
+        "replace_all": false
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "coding_agent_tools_10",
+    "input": "Find the file named **/default-label.txt anywhere under /workspace/features. Read the entire file, then change its current one-line label to November orders with a single exact replacement. There is one match, and its contents have no trailing newline.",
+    "expected": {
+     "steps": [
+      {
+       "name": "Glob",
+       "arguments": {
+        "path": "/workspace/features",
+        "pattern": "**/default-label.txt"
+       },
+       "observation": {
+        "paths": [
+         "/workspace/features/ledger/summary/default-label.txt"
+        ]
+       }
+      },
+      {
+       "name": "Read",
+       "arguments": {
+        "file_path": "/workspace/features/ledger/summary/default-label.txt"
+       },
+       "observation": {
+        "content": "October shipments"
+       }
+      },
+      {
+       "name": "Edit",
+       "arguments": {
+        "file_path": "/workspace/features/ledger/summary/default-label.txt",
+        "old_string": "October shipments",
+        "new_string": "November orders",
+        "replace_all": false
+       }
+      }
+     ]
+    }
+   }
+  ]
+ },
+ {
+  "id": "akamai_cloud_tools",
+  "name": "Akamai Cloud operations",
+  "group": "Tool use",
+  "goal": "Select a cloud operation and preserve resource type, region, ID and size across calls.",
+  "grader": "tool_calls",
+  "system": "You are operating on simulated Akamai Cloud resources with the supplied native functions. Call one function per turn. Use known IDs directly. Obtain missing IDs from tool results and apply the user's exact labels and region. If a required choice belongs to the user, ask them with a short plain-text question.",
+  "notes": "These are simulated adapters for documented Linode API operations. The function names and response fixtures belong to this eval. No cloud account is accessed and no resources are changed.",
+  "sources": [
+   "https://techdocs.akamai.com/linode-api/reference/api-summary",
+   "https://techdocs.akamai.com/linode-api/reference/get-linode-config",
+   "https://techdocs.akamai.com/linode-api/reference/post-attach-volume",
+   "https://techdocs.akamai.com/linode-api/reference/post-resize-volume"
+  ],
+  "tools": [
+   {
+    "type": "function",
+    "function": {
+     "name": "list_instances",
+     "description": "List Linode instances in one region. The adapter applies the region filter to the collection.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "region": {
+        "type": "string",
+        "description": "Akamai Cloud region ID, for example us-east."
+       }
+      },
+      "required": [
+       "region"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "get_instance",
+     "description": "Get one Linode instance by ID.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "linode_id": {
+        "type": "integer",
+        "description": "Numeric Linode instance ID."
+       }
+      },
+      "required": [
+       "linode_id"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "list_configs",
+     "description": "List the configuration profiles belonging to one Linode.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "linode_id": {
+        "type": "integer",
+        "description": "Numeric Linode instance ID."
+       }
+      },
+      "required": [
+       "linode_id"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "get_config",
+     "description": "Get a configuration profile using both the parent Linode ID and the profile ID.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "linode_id": {
+        "type": "integer",
+        "description": "Numeric Linode instance ID."
+       },
+       "config_id": {
+        "type": "integer",
+        "description": "Numeric configuration profile ID."
+       }
+      },
+      "required": [
+       "linode_id",
+       "config_id"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "list_volumes",
+     "description": "List Block Storage volumes in one region, including each volume's label, ID, and attached Linode ID.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "region": {
+        "type": "string",
+        "description": "Akamai Cloud region ID, for example us-east."
+       }
+      },
+      "required": [
+       "region"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "get_volume",
+     "description": "Get one Block Storage volume by its volume ID.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "volume_id": {
+        "type": "integer",
+        "description": "Numeric Block Storage volume ID."
+       }
+      },
+      "required": [
+       "volume_id"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "resize_volume",
+     "description": "Increase an active Block Storage volume to the requested total size.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "volume_id": {
+        "type": "integer",
+        "description": "Numeric Block Storage volume ID."
+       },
+       "size": {
+        "type": "integer",
+        "description": "Target total size in GB."
+       }
+      },
+      "required": [
+       "volume_id",
+       "size"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "create_volume",
+     "description": "Create a new unattached Block Storage volume in the specified region.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "region": {
+        "type": "string",
+        "description": "Akamai Cloud region ID, for example us-east."
+       },
+       "label": {
+        "type": "string",
+        "description": "New volume label."
+       },
+       "size": {
+        "type": "integer",
+        "description": "Target total size in GB."
+       }
+      },
+      "required": [
+       "region",
+       "label",
+       "size"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "attach_volume",
+     "description": "Attach an existing unattached volume to a Linode in the same region.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "volume_id": {
+        "type": "integer",
+        "description": "Numeric Block Storage volume ID."
+       },
+       "linode_id": {
+        "type": "integer",
+        "description": "Numeric Linode instance ID."
+       }
+      },
+      "required": [
+       "volume_id",
+       "linode_id"
+      ],
+      "additionalProperties": false
+     }
+    }
+   }
+  ],
+  "examples": [
+   {
+    "id": "akamai_cloud_tools_01",
+    "input": "Our inventory happens to have an instance and a Block Storage volume with ID 71403. Show me the record for the volume so I can check its attachment.",
+    "expected": {
+     "steps": [
+      {
+       "name": "get_volume",
+       "arguments": {
+        "volume_id": 71403
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "akamai_cloud_tools_02",
+    "input": "The incident note names configuration profile 823 on Linode 68231. Fetch that one profile to inspect the boot settings.",
+    "expected": {
+     "steps": [
+      {
+       "name": "get_config",
+       "arguments": {
+        "linode_id": 68231,
+        "config_id": 823
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "akamai_cloud_tools_03",
+    "input": "The live maintenance window covers us-east. Find the unattached Block Storage volume with the exact label receipts-current there and attach it to Linode 74012, which is already confirmed in us-east.",
+    "expected": {
+     "steps": [
+      {
+       "name": "list_volumes",
+       "arguments": {
+        "region": "us-east"
+       },
+       "observation": {
+        "data": [
+         {
+          "id": 31651,
+          "label": "receipts-current-old",
+          "region": "us-east",
+          "linode_id": null
+         },
+         {
+          "id": 43106,
+          "label": "receipts-current",
+          "region": "us-east",
+          "linode_id": null
+         },
+         {
+          "id": 74012,
+          "label": "receipts-monthly",
+          "region": "us-east",
+          "linode_id": 93142
+         }
+        ]
+       }
+      },
+      {
+       "name": "attach_volume",
+       "arguments": {
+        "volume_id": 43106,
+        "linode_id": 74012
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "akamai_cloud_tools_04",
+    "input": "Please create a 64 GB unattached volume called billing-exports. The team uses both us-east and eu-west and has not picked the destination yet. Ask which region we want before making any call.",
+    "expected": {
+     "steps": [],
+     "clarifies": [
+      "region",
+      "us-east",
+      "eu-west",
+      "data center",
+      "datacenter",
+      "location"
+     ]
+    }
+   },
+   {
+    "id": "akamai_cloud_tools_05",
+    "input": "The metrics team needs a new, unattached 96 GB volume called nightly-metrics in eu-central. The request is for a separate volume alongside last month's archive.",
+    "expected": {
+     "steps": [
+      {
+       "name": "create_volume",
+       "arguments": {
+        "region": "eu-central",
+        "label": "nightly-metrics",
+        "size": 96
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "akamai_cloud_tools_06",
+    "input": "Volume 73104 is active at 118 GB. Increase it by 32 GB. Keep the existing Block Storage volume and its attachment.",
+    "expected": {
+     "steps": [
+      {
+       "name": "resize_volume",
+       "arguments": {
+        "volume_id": 73104,
+        "size": 150
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "akamai_cloud_tools_07",
+    "input": "In us-central, find the Linode whose label is exactly kiosk-west and list that instance's available boot configuration profiles.",
+    "expected": {
+     "steps": [
+      {
+       "name": "list_instances",
+       "arguments": {
+        "region": "us-central"
+       },
+       "observation": {
+        "data": [
+         {
+          "id": 50831,
+          "label": "kiosk-west-blue",
+          "region": "us-central"
+         },
+         {
+          "id": 40819,
+          "label": "kiosk-west",
+          "region": "us-central"
+         }
+        ]
+       }
+      },
+      {
+       "name": "list_configs",
+       "arguments": {
+        "linode_id": 40819
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "akamai_cloud_tools_08",
+    "input": "Check the current size of volume 29814. If it is already at the requested size of 160 GB, reply with the single word unchanged. If it is smaller, increase the volume to 160 GB.",
+    "expected": {
+     "steps": [
+      {
+       "name": "get_volume",
+       "arguments": {
+        "volume_id": 29814
+       },
+       "observation": {
+        "id": 29814,
+        "label": "archive",
+        "status": "active",
+        "size": 160
+       }
+      }
+     ],
+     "answer": [
+      "unchanged"
+     ]
+    }
+   },
+   {
+    "id": "akamai_cloud_tools_09",
+    "input": "Retrieve the Linode instance record for ID 31867, as distinct from the attached volume whose ID is 31876.",
+    "expected": {
+     "steps": [
+      {
+       "name": "get_instance",
+       "arguments": {
+        "linode_id": 31867
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "akamai_cloud_tools_10",
+    "input": "In eu-west, locate the instance with exact label ledger-reader. List its configuration profiles, then fetch the details of its profile labelled blue. Use the IDs returned at each step.",
+    "expected": {
+     "steps": [
+      {
+       "name": "list_instances",
+       "arguments": {
+        "region": "eu-west"
+       },
+       "observation": {
+        "data": [
+         {
+          "id": 82017,
+          "label": "ledger-reader-canary",
+          "region": "eu-west"
+         },
+         {
+          "id": 62904,
+          "label": "ledger-reader",
+          "region": "eu-west"
+         }
+        ]
+       }
+      },
+      {
+       "name": "list_configs",
+       "arguments": {
+        "linode_id": 62904
+       },
+       "observation": {
+        "data": [
+         {
+          "id": 336,
+          "label": "green"
+         },
+         {
+          "id": 359,
+          "label": "blue"
+         }
+        ]
+       }
+      },
+      {
+       "name": "get_config",
+       "arguments": {
+        "linode_id": 62904,
+        "config_id": 359
+       }
+      }
+     ]
+    }
+   }
+  ]
+ },
+ {
+  "id": "pi_coding_tools",
+  "name": "Pi coding tools",
+  "group": "Tool use",
+  "goal": "Use Pi's default coding tool names and argument shapes in a simulated workspace.",
+  "grader": "tool_calls",
+  "system": "Use the supplied native functions one at a time. Preserve the path spelling and exact literals from the request or observed file. Use read for file contents. If the user asks you to clarify first, reply in plain text.",
+  "notes": "This fixture uses Pi's read, bash, edit and write coding tools. Pi also offers grep, find and ls in its read-only tool set. The benchmark simulates observations and never starts Pi or a shell.",
+  "sources": [
+   "https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/index.ts",
+   "https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/edit.ts",
+   "https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/read.ts",
+   "https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/bash.ts",
+   "https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/write.ts"
+  ],
+  "tools": [
+   {
+    "type": "function",
+    "function": {
+     "name": "read",
+     "description": "Read a file, optionally limiting the range by start line and count.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "path": {
+        "type": "string",
+        "description": "Relative or absolute file path."
+       },
+       "offset": {
+        "type": "number",
+        "description": "First line, counting from 1.",
+        "default": 1
+       },
+       "limit": {
+        "type": "number",
+        "description": "Maximum number of lines to read."
+       }
+      },
+      "required": [
+       "path"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "bash",
+     "description": "Run a command with an optional timeout in seconds.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "command": {
+        "type": "string",
+        "description": "Shell command."
+       },
+       "timeout": {
+        "type": "number",
+        "description": "Timeout in seconds."
+       }
+      },
+      "required": [
+       "command"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "edit",
+     "description": "Apply one or more exact, non-overlapping replacements matched against the original file.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "path": {
+        "type": "string",
+        "description": "Relative or absolute file path."
+       },
+       "edits": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+         "type": "object",
+         "properties": {
+          "oldText": {
+           "type": "string",
+           "description": "Exact, unique text in the original file."
+          },
+          "newText": {
+           "type": "string",
+           "description": "Text to put in its place."
+          }
+         },
+         "required": [
+          "oldText",
+          "newText"
+         ],
+         "additionalProperties": false
+        }
+       }
+      },
+      "required": [
+       "path",
+       "edits"
+      ],
+      "additionalProperties": false
+     }
+    }
+   },
+   {
+    "type": "function",
+    "function": {
+     "name": "write",
+     "description": "Write complete content to a file, creating it when needed.",
+     "parameters": {
+      "type": "object",
+      "properties": {
+       "path": {
+        "type": "string",
+        "description": "Relative or absolute file path."
+       },
+       "content": {
+        "type": "string",
+        "description": "Full file contents."
+       }
+      },
+      "required": [
+       "path",
+       "content"
+      ],
+      "additionalProperties": false
+     }
+    }
+   }
+  ],
+  "examples": [
+   {
+    "id": "pi_coding_tools_01",
+    "input": "Read lines 42 through 49 inclusive from reports/weekly.ts. Keep the file path relative to this workspace.",
+    "expected": {
+     "steps": [
+      {
+       "name": "read",
+       "arguments": {
+        "path": "reports/weekly.ts",
+        "offset": 42,
+        "limit": 8
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "pi_coding_tools_02",
+    "input": "Run exactly npm test -- ledger.test.ts. The maximum runtime for this check is one and a half minutes.",
+    "expected": {
+     "steps": [
+      {
+       "name": "bash",
+       "arguments": {
+        "command": "npm test -- ledger.test.ts",
+        "timeout": 90
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "pi_coding_tools_03",
+    "input": "Read the whole file docs/edition.txt. Then replace its one-line title with Winter catalogue using a single targeted edit. The existing title has no trailing newline.",
+    "expected": {
+     "steps": [
+      {
+       "name": "read",
+       "arguments": {
+        "path": "docs/edition.txt"
+       },
+       "observation": "Autumn catalogue"
+      },
+      {
+       "name": "edit",
+       "arguments": {
+        "path": "docs/edition.txt",
+        "edits": [
+         {
+          "oldText": "Autumn catalogue",
+          "newText": "Winter catalogue"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "pi_coding_tools_04",
+    "input": "I need a changelog entry, but this workspace has a CLI package and an editor package. Ask which package should receive the entry before reading a file or writing a draft.",
+    "expected": {
+     "steps": [],
+     "clarifies": [
+      "package",
+      "cli",
+      "editor",
+      "changelog"
+     ]
+    }
+   },
+   {
+    "id": "pi_coding_tools_05",
+    "input": "Create a new file named docs/regions.csv. Write exactly the header code,name followed by one newline, then the line eu,Europe followed by one final newline.",
+    "expected": {
+     "steps": [
+      {
+       "name": "write",
+       "arguments": {
+        "path": "docs/regions.csv",
+        "content": "code,name\neu,Europe\n"
+       }
+      }
+     ]
+    }
+   },
+   {
+    "id": "pi_coding_tools_06",
+    "input": "In the already-read ui/labels.ts, submit one targeted edit containing two non-overlapping replacements. In the edit array, put the change from Invoice due to Payment due first and the change from Email copy to Send receipt second. Each source string occurs once.",
+    "expected": {
+     "steps": [
+      {
+       "name": "edit",
+       "arguments": {
+        "path": "ui/labels.ts",
+        "edits": [
+         {
+          "oldText": "Invoice due",
+          "newText": "Payment due"
+         },
+         {
+          "oldText": "Email copy",
+          "newText": "Send receipt"
+         }
+        ]
+       }
+      }
+     ]
+    }
+   }
+  ]
+ }
+]
